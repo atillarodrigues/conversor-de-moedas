@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <title>Conversor de Moedas</title>
+</head>
+
+<body>
+    <img src="./assets/logo.gif" class="logo-img" alt="logo-site" />
+    <main>
+        <div class="container-1">
+            <label>
+                Converter <b>de:</b>
+                <br>
+                <select id="currency-convert" class="container-select">
+                    <option value="real">R$ Real Brasileiro</option>
+                    <option value="dolar">USD$ Dólar Americano</option>
+                    <option value="euro">€ Euro Europeu</option>
+                    <option value="libra">£ Libra Esterlina</option>
+                </select>
+            </label>
+            <br>
+            <label >
+                Converter <b>para:</b>
+                <br>
+                <select id="currency-converted" class="container-select">
+                    <option value="dolar">USD$ Dólar Americano</option>
+                    <option value="euro">€ Euro Europeu</option>
+                    <option value="libra">£ Libra Esterlina</option>
+                    <option value="real">R$ Real Brasileiro</option>
+                </select>
+            </label>
+            <br>
+            <label >Valor<br>
+                <input id="input-value" class="container-select" placeholder="Digite um Valor" type="number">
+            </label>
+            <br>
+            <button class="convert-button">Converter</button>
+        </div>
+
+        <section>
+            <div class="currency-box">
+                <img id="currency-convert-img" src="./assets/real.png" alt="logo-brasil">
+                <p id="currency-convert-p" class="currency">Real</p>
+                <p id="currency-from" class="currency-value">R$ 0</p>
+            </div>
+
+            <img src="./assets/arrow.png"  class="arrow" alt="seta" />
+
+            <div class="currency-box">
+                <img id="currency-img" src="./assets/dolar.png" alt="logo-eua">
+                <p id="currency" class="currency">Dolar</p>
+                <p id="currency-for" class="currency-value">$0</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="./style.js"></script>
+</body>
+
+</html>
