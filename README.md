@@ -12,7 +12,7 @@
 
 <p>Este projeto converte as principais moedas em circulação de maneira simplificada. Utiliza um objeto que contém as informações da moeda e o valor de câmbio. A operação é feita primeiro para real (pré-definido como padrão) e, em seguida, para as demais moedas, tornando-o um conversor bidirecional.</p>
 
-<a >Clique para ser redirecionado para o site</a>
+<a href="https://atillarodrigues.github.io/conversor-de-moedas/" target="_blank" >Clique para ser redirecionado para o site</a>
 
 <h3>Este é um projeto responsivo. No computador, ele deve apresentar o seguinte design:</h3>
 <img src="./assets/sitepc.png" alt="Design para computador"/>
