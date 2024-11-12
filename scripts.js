@@ -15,14 +15,14 @@ async function fetchExchangeRate(baseCurrency) {
     try {
         const response = await fetch(`${API_URL}${baseCurrency}`);
 
-        // Verifica se a resposta é válida (código de status 200 a 299)
+
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
         }
 
         const data = await response.json();
 
-        // Verifica se os dados estão no formato esperado
+
         if (!data.conversion_rates) {
             throw new Error("Estrutura de dados inesperada");
         }
