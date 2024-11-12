@@ -1,4 +1,3 @@
-
 const convertButton = document.querySelector(".convert-button");
 const inputValueRaiz = document.querySelector("#input-value");
 const currencyFrom = document.querySelector("#currency-from");
@@ -9,31 +8,6 @@ const currencyConvertedP =  document.getElementById('currency');
 const currencyConvertP =  document.getElementById('currency-convert-p');
 const currencyConvertedImg = document.getElementById('currency-img');
 const currencyConvertImg = document.getElementById('currency-convert-img');
-const API_URL = 'https://v6.exchangerate-api.com/v6/969e233755677eed7c6f3eac/latest/USD'
-
-async function fetchExchangeRate(baseCurrency) {
-    try {
-        const response = await fetch(`${API_URL}${baseCurrency}`);
-
-        // Verifica se a resposta é válida (código de status 200 a 299)
-        if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
-        }
-
-        const data = await response.json();
-
-        // Verifica se os dados estão no formato esperado
-        if (!data.conversion_rates) {
-            throw new Error("Estrutura de dados inesperada");
-        }
-
-        return data.conversion_rates;
-
-    } catch (error) {
-        alert("Não foi possível obter as taxas de câmbio no momento. Verifique sua conexão e tente novamente.");
-        console.error("Erro:", error.message); // Exibe o erro no console para depuração
-    }
-}
 
 const taxaCambio = {
     real: {nome:'BRL', taxa:1},
@@ -46,25 +20,25 @@ const taxaCambio = {
 function trocarImgConvert() {
     const moedaOrigem = taxaCambio[currencyConvert.value]
     if (moedaOrigem.nome === 'BRL') {
-        currencyFrom.textContent = `R$: 0  `;
+        currencyFrom.textContent = 'R$: 0  ';
         currencyConvertP.textContent = 'Real';
         currencyConvertImg.src = "./assets/real.png";
         
     }
     if (moedaOrigem.nome === 'USD') {
-        currencyFrom.textContent = `$: 0  `;
+        currencyFrom.textContent = '$: 0 ' ;
         currencyConvertP.textContent = 'Dolar';
         currencyConvertImg.src = "./assets/dolar.png";
         
     }
     if (moedaOrigem.nome === 'EUR') {
-        currencyFrom.textContent = `€: 0  `;
+        currencyFrom.textContent = '€: 0 ' ;
         currencyConvertP.textContent = 'Euro';
         currencyConvertImg.src = "./assets/euro.png";
         
     }
     if (moedaOrigem.nome === 'GBP') {
-        currencyFrom.textContent = `£: 0  `;
+        currencyFrom.textContent = '£: 0'  ;
         currencyConvertP.textContent = 'Libra';
         currencyConvertImg.src = "./assets/libra.png";
         
@@ -74,25 +48,25 @@ function trocarImgConvert() {
 function trocarImgConverted() {
     const moedaOrigem = taxaCambio[currencyConverted.value]
     if (moedaOrigem.nome === 'BRL') {
-        currencyFor.textContent = `R$: 0  `;
+        currencyFor.textContent = 'R$: 0 ' ;
         currencyConvertedP.textContent = 'Real';
         currencyConvertedImg.src = "./assets/real.png";
         
     }
     if (moedaOrigem.nome === 'USD') {
-        currencyFor.textContent = `$: 0  `;
+        currencyFor.textContent = '$: 0'  ;
         currencyConvertedP.textContent = 'Dolar';
         currencyConvertedImg.src = "./assets/dolar.png";
         
     }
     if (moedaOrigem.nome === 'EUR') {
-        currencyFor.textContent = `€: 0  `;
+        currencyFor.textContent = '€: 0 ' ;
         currencyConvertedP.textContent = 'Euro';
         currencyConvertedImg.src ="./assets/euro.png";
         
     }
     if (moedaOrigem.nome === 'GBP') {
-        currencyFor.textContent = `£: 0  `;
+        currencyFor.textContent = '£: 0 ' ;
         currencyConvertedP.textContent = 'Libra';
         currencyConvertedImg.src = "./assets/libra.png";
         
