@@ -10,7 +10,7 @@
     <li>JavaScript</li>
 </ul>
 
-<p>Este projeto converte as principais moedas em circulação de maneira simplificada. Utiliza um objeto que contém as informações da moeda e o valor de câmbio. A operação é feita primeiro para real (pré-definido como padrão) e, em seguida, para as demais moedas, tornando-o um conversor bidirecional.</p>
+<p>Este projeto converte as principais moedas em circulação de maneira simplificada. Utiliza a AwesomeApi para pegar as informações da moeda e o valor de câmbio e transformar em objeto. A operação é feita primeiro para real (pré-definido como padrão) e, em seguida, para as demais moedas, tornando-o um conversor bidirecional.</p>
 
 <a href="https://atillarodrigues.github.io/conversor-de-moedas/" target="_blank" >Clique para ser redirecionado para o site</a>
 
