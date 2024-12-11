@@ -2,131 +2,114 @@ const convertButton = document.querySelector(".convert-button");
 const inputValueRaiz = document.querySelector("#input-value");
 const currencyFrom = document.querySelector("#currency-from");
 const currencyFor = document.querySelector("#currency-for");
-const currencyConverted =  document.getElementById('currency-converted');
-const currencyConvert = document.getElementById('currency-convert');
-const currencyConvertedP =  document.getElementById('currency');
-const currencyConvertP =  document.getElementById('currency-convert-p');
-const currencyConvertedImg = document.getElementById('currency-img');
-const currencyConvertImg = document.getElementById('currency-convert-img');
-
-const taxaCambio = {
-    real: {nome:'BRL', taxa:1},
-    dolar: {nome:'USD', taxa:5.78},
-    euro: {nome:'EUR', taxa:6.10},
-    libra: {nome:'GBP', taxa:7.18},
-};
+const currencyConverted = document.getElementById("currency-converted");
+const currencyConvert = document.getElementById("currency-convert");
+const currencyConvertedP = document.getElementById("currency");
+const currencyConvertP = document.getElementById("currency-convert-p");
+const currencyConvertedImg = document.getElementById("currency-img");
+const currencyConvertImg = document.getElementById("currency-convert-img");
+const API_URL = "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL"
+const taxaCambio = {}
 
 
-function trocarImgConvert() {
-    const moedaOrigem = taxaCambio[currencyConvert.value]
-    if (moedaOrigem.nome === 'BRL') {
-        currencyFrom.textContent = 'R$: 0  ';
-        currencyConvertP.textContent = 'Real';
-        currencyConvertImg.src = "./assets/real.png";
-        
-    }
-    if (moedaOrigem.nome === 'USD') {
-        currencyFrom.textContent = '$: 0 ' ;
-        currencyConvertP.textContent = 'Dolar';
-        currencyConvertImg.src = "./assets/dolar.png";
-        
-    }
-    if (moedaOrigem.nome === 'EUR') {
-        currencyFrom.textContent = '€: 0 ' ;
-        currencyConvertP.textContent = 'Euro';
-        currencyConvertImg.src = "./assets/euro.png";
-        
-    }
-    if (moedaOrigem.nome === 'GBP') {
-        currencyFrom.textContent = '£: 0'  ;
-        currencyConvertP.textContent = 'Libra';
-        currencyConvertImg.src = "./assets/libra.png";
-        
-    }
-}
 
-function trocarImgConverted() {
-    const moedaOrigem = taxaCambio[currencyConverted.value]
-    if (moedaOrigem.nome === 'BRL') {
-        currencyFor.textContent = 'R$: 0 ' ;
-        currencyConvertedP.textContent = 'Real';
-        currencyConvertedImg.src = "./assets/real.png";
-        
+async function getExchangeRates() {
+  try {
+    const response = await fetch(API_URL);
+    if (!response.ok) {
+      throw new Error("Erro ao buscar os dados da API");
     }
-    if (moedaOrigem.nome === 'USD') {
-        currencyFor.textContent = '$: 0'  ;
-        currencyConvertedP.textContent = 'Dolar';
-        currencyConvertedImg.src = "./assets/dolar.png";
-        
-    }
-    if (moedaOrigem.nome === 'EUR') {
-        currencyFor.textContent = '€: 0 ' ;
-        currencyConvertedP.textContent = 'Euro';
-        currencyConvertedImg.src ="./assets/euro.png";
-        
-    }
-    if (moedaOrigem.nome === 'GBP') {
-        currencyFor.textContent = '£: 0 ' ;
-        currencyConvertedP.textContent = 'Libra';
-        currencyConvertedImg.src = "./assets/libra.png";
-        
-    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erro ao acessar a API:", error.message);
+    return null;
+  }
 }
 
 
+async function inicializarTaxas() {
+  const data = await getExchangeRates();
+  if (data) {
+    taxaCambio.real = { nome: "BRL", taxa: 1, simbolo: "R$", img: "./assets/real.png" };
+    taxaCambio.dolar = { nome: "USD", taxa: parseFloat(data.USDBRL.high), simbolo: "$", img: "./assets/dolar.png" };
+    taxaCambio.euro = { nome: "EUR", taxa: parseFloat(data.EURBRL.high), simbolo: "€", img: "./assets/euro.png" };
+    taxaCambio.bitcoin = { nome: "BTC", taxa: parseFloat(data.BTCBRL.high), simbolo: "₿", img: "./assets/bitcoin.png" };
 
-function changeValues() {
-    let inputValue = inputValueRaiz.value.replace(',', '.');
+    console.log("Objeto taxaCambio inicializado:", taxaCambio);
 
-    inputValue = parseFloat(inputValue);
 
-    if (isNaN(inputValue)) {
-        alert("Por favor, insira um valor numérico válido.");
-        return;
-    }
-
+    document.dispatchEvent(new Event("taxaCambioInicializado"));
+  }
 }
 
+
+inicializarTaxas();
+
+  function trocarImagem() {
+    if (Object.keys(taxaCambio).length === 0) {
+      console.warn("taxaCambio ainda não foi inicializado.");
+      return;
+    }
+  
+    const moedaOrigem = taxaCambio[currencyConvert.value]; 
+    const moedaDestino = taxaCambio[currencyConverted.value]; 
+  
+    if (moedaOrigem) {
+      currencyFrom.textContent = `${moedaOrigem.simbolo}: 0`;
+      currencyConvertP.textContent = moedaOrigem.nome;
+      currencyConvertImg.src = moedaOrigem.img;
+    } else {
+      console.warn(`A moeda ${currencyConvert.value} não foi encontrada em taxaCambio.`);
+    }
+  
+    if (moedaDestino) {
+      currencyFor.textContent = `${moedaDestino.simbolo}: 0`;
+      currencyConvertedP.textContent = moedaDestino.nome;
+      currencyConvertedImg.src = moedaDestino.img;
+    } else {
+      console.warn(`A moeda ${currencyConverted.value} não foi encontrada em taxaCambio.`);
+    }
+  }
 function cliqueiBotao() {
+  let inputValue = inputValueRaiz.value.replace(",", ".");
+  inputValue = parseFloat(inputValue);
 
-    let inputValue = inputValueRaiz.value.replace(',', '.');
+  if (isNaN(inputValue)) {
+    alert("Por favor, insira um valor numérico válido.");
+    return;
+  }
 
-    inputValue = parseFloat(inputValue);
+  const moedaOrigem = taxaCambio[currencyConvert.value];
+  const moedaDestino = taxaCambio[currencyConverted.value];
 
-    if (isNaN(inputValue)) {
-        alert("Por favor, insira um valor numérico válido.");
-        return;
-    }
+  if (!moedaOrigem || !moedaDestino) {
+    alert("Moeda inválida selecionada.");
+    return;
+  }
 
-    const moedaOrigem = taxaCambio[currencyConvert.value]
-    const moedaDestino = taxaCambio[currencyConverted.value]
+  const valorEmReais = inputValue * moedaOrigem.taxa;
+  const valorConvertido = valorEmReais / moedaDestino.taxa;
 
-    if (!moedaOrigem || !moedaDestino) {
-        alert("Moeda inválida selecionada.");
-        return;
-    }
+  currencyFrom.textContent =
+    moedaOrigem.nome === "BTC"
+      ? `${moedaOrigem.simbolo} ${inputValue.toFixed(6)}`
+      : new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: moedaOrigem.nome,
+        }).format(inputValue);
 
-    const valorEmReais = inputValue * moedaOrigem.taxa;
-
-    const valorConvertido = valorEmReais / moedaDestino.taxa;
-
-    currencyFrom.textContent = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: moedaOrigem.nome
-    }).format(inputValue)
-
-    currencyFor.textContent = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: moedaDestino.nome
-    }).format(valorConvertido)
-
+  currencyFor.textContent =
+    moedaDestino.nome === "BTC"
+      ? `${moedaDestino.simbolo} ${valorConvertido.toFixed(6)}`
+      : new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: moedaDestino.nome,
+        }).format(valorConvertido);
 }
-
-
-
 
 convertButton.addEventListener("click", cliqueiBotao);
-
-currencyConverted.addEventListener('change', trocarImgConverted);
-
-currencyConvert.addEventListener('change', trocarImgConvert);
+document.addEventListener("taxaCambioInicializado", () => {
+    currencyConverted.addEventListener("change", trocarImagem);
+    currencyConvert.addEventListener("change", trocarImagem);
+  });
